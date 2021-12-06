@@ -9,8 +9,8 @@ import { AuthProvider } from "./context/AuthContext";
 function App() {
     return (
         <div className="App">
-            <AuthProvider>
-                <Router>
+			<Router>
+            	<AuthProvider>
                     <Header />
                     <Routes>
                         <Route path="/login" element={<Login />} />
@@ -23,8 +23,8 @@ function App() {
                             }
                         />
                     </Routes>
-                </Router>
-            </AuthProvider>
+            	</AuthProvider>
+			</Router>
         </div>
     );
 }
