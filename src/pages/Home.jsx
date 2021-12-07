@@ -2,12 +2,13 @@ import React, { useState, useEffect, useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import { customFetcher } from "../utils/FetchInstance";
 // import { useAxios } from '../utils/useAxios';
+import {useFetch} from '../utils/useFetch.js';
 
 const Home = () => {
-    // const api = useAxios();
+    const api = useFetch();
     const [notes, setNotes] = useState([]);
     const { authTokens, logoutUser } = useContext(AuthContext);
-    console.log({ authTokens });
+    
     const getNotes = async () => {
         // const res = await fetch("http://localhost:8000/api/notes/" , {
         //     method: "GET",
@@ -22,8 +23,10 @@ const Home = () => {
         // const { data } = res;
         // if (res.status === 200){
             // }
-            const { response, data } = await customFetcher("/api/notes/");
-            setNotes(prev => data);
+            const { response, data } = await api("/api/notes/");
+            if (response.status === 200){
+                setNotes(prev => data);
+            }
     };
 
     useEffect(() => {
