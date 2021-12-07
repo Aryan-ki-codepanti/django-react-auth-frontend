@@ -1,8 +1,9 @@
 import React, { useState , useEffect, useContext } from 'react';
 import AuthContext from '../context/AuthContext';
-import {axiosInstance} from '../utils/AxiosInstance';
+import { useAxios } from '../utils/useAxios';
 
 const Home = () => {
+    const api = useAxios();
     const [notes, setNotes] = useState([]);
     const { authTokens , logoutUser } = useContext(AuthContext);
     console.log({authTokens});
@@ -15,7 +16,7 @@ const Home = () => {
         //     }
         // });
         // const data = await res.json();
-        const res = await axiosInstance.get("/api/notes/");
+        const res = await api.get("/api/notes/");
         const { data } = res;
         if (res.status === 200){
             setNotes(prev => data);

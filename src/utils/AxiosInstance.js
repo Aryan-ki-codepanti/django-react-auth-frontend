@@ -1,6 +1,6 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-import dayjs, { Ls } from "dayjs";
+import dayjs from "dayjs";
 
 const baseURL = "http://localhost:8000";
 let authTokens = localStorage.getItem("authTokens")
