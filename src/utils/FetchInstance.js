@@ -30,17 +30,30 @@ export const customFetcher = async (url , config={}) => {
         ? JSON.parse(localStorage.getItem("authTokens"))
         : null;
 
-    const user = jwtDecode(authTokens.access);
-    const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1;
+    // const user = jwtDecode(authTokens.access);
+    // const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1;
 
-    if (isExpired) {
-        authTokens = await refreshToken(authTokens);
-    }
+    // if (isExpired) {
+    //     authTokens = await refreshToken(authTokens);
+    // }
+
     // Proceed with request
     config.headers = {
         Authorization : `Bearer ${authTokens?.access}`
     }
-
     let { response,data } = await originalRequest(url , config);
+    
+    if (response.statusText === "Unauthorized"){
+        authTokens = await refreshToken(authTokens);
+
+        config.headers = {
+            Authorization : `Bearer ${authTokens?.access}`
+        }
+        
+        const newRes = await originalRequest(url , config);
+        response = newRes.response
+        data = newRes.data
+    }
+
     return {response , data};
 };
